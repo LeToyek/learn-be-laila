@@ -1,5 +1,6 @@
 // 1. Import library Express
-const express = require('express');
+const express = require("express");
+const userRoutes = require("./routes/userRouter");
 
 // 2. Inisialisasi aplikasi Express
 const app = express();
@@ -14,24 +15,23 @@ app.use(express.json());
 // === DEFINISI ENDPOINT ===
 
 // Endpoint GET di route /
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
   res.status(200).json({
-    message: 'Selamat datang di Express Server Starter!'
+    message: "Selamat datang di Express Server Starter!",
   });
 });
 
 // Endpoint GET di route /test
-app.get('/test', (req, res) => {
+app.get("/test", (req, res) => {
   // Log ke konsol setiap kali endpoint ini diakses
-  console.log('Endpoint /test diakses pada:', new Date().toLocaleTimeString());
+  console.log("Endpoint /test diakses pada:", new Date().toLocaleTimeString());
 
   // Kirim response berupa JSON dengan status code 200 (OK)
   res.status(200).json({
     success: true,
-    message: 'Halo! Endpoint /test berhasil diakses.'
+    message: "Halo! Endpoint /test berhasil diakses.",
   });
 });
-
 
 // 4. Jalankan server untuk mendengarkan koneksi di port yang ditentukan
 app.listen(PORT, () => {
