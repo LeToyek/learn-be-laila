@@ -20,7 +20,7 @@ const users = [
 ]
 
 class UserController {
-  static async getUsers(res) {
+  static async getUsers(req, res) {
     try {
       res.status(200).json({
         status: "success",

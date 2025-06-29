@@ -32,7 +32,7 @@ app.get("/test", (req, res) => {
     message: "Halo! Endpoint /test berhasil diakses.",
   });
 });
-
+app.use(userRoutes);
 // 4. Jalankan server untuk mendengarkan koneksi di port yang ditentukan
 app.listen(PORT, () => {
   console.log(`Server berjalan lancar di http://localhost:${PORT}`);
