@@ -2,9 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { getUsers, createUser, updateUser, deleteUser} = require("../controllers/userController");
 
-router.get("/api/getAllUsers", getUsers);
-router.post("/api/createUser", createUser);
-router.delete("/api/deleteUser/:id", deleteUser);
-router.put("/api/updateUser/:id", updateUser);
+// make this wrapping the /api by defining apiRouter variable
+const apiRouter = express.Router();
+
+apiRouter.get("/getAllUsers", getUsers);
+apiRouter.post("/createUser", createUser);
+apiRouter.delete("/deleteUser/:id", deleteUser);
+apiRouter.put("/updateUser/:id", updateUser);
+
+router.use("/api",apiRouter)
 
 module.exports = router;
