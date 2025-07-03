@@ -5,7 +5,6 @@ const { User } = require("../models");
 exports.login = async (req, res) => {
   const { email, password } = req.body;
 
-  // Validasi input
   if (!email || !password) {
     return res.status(400).json({
       status: "error",
@@ -14,7 +13,6 @@ exports.login = async (req, res) => {
   }
 
   try {
-    // Cari user di database
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
@@ -24,7 +22,6 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Cocokkan password dengan hash
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res.status(401).json({
@@ -33,7 +30,9 @@ exports.login = async (req, res) => {
       });
     }
 
-    // Buat payload JWT
+    // ✅ Tandai sebagai logged in
+    await user.update({ is_logged_in: true });
+
     const payload = {
       id: user.id,
       email: user.email,
@@ -56,10 +55,20 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.logout = (req, res) => {
-  return res.status(200).json({
-    status: "success",
-    message: "Logout successful",
-  });
-}
+exports.logout = async (req, res) => {
+  try {
+    const userId = req.user.id;
 
+    await User.update({ is_logged_in: false }, { where: { id: userId } });
+
+    return res.status(200).json({
+      status: "success",
+      message: "Logout successful",
+    });
+  } catch (err) {
+    return res.status(500).json({
+      status: "error",
+      message: "Logout failed",
+    });
+  }
+};
