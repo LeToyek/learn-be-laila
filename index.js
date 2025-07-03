@@ -1,6 +1,8 @@
 // 1. Import library Express
+require("dotenv").config();
 const express = require("express");
 const userRoutes = require("./routes/userRouter");
+const authRoutes = require("./routes/authRouter");
 
 // 2. Inisialisasi aplikasi Express
 const app = express();
@@ -33,6 +35,7 @@ app.get("/test", (req, res) => {
   });
 });
 app.use(userRoutes);
+app.use("/api/auth", authRoutes);
 // 4. Jalankan server untuk mendengarkan koneksi di port yang ditentukan
 app.listen(PORT, () => {
   console.log(`Server berjalan lancar di http://localhost:${PORT}`);
